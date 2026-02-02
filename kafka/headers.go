@@ -3,12 +3,12 @@ package kafka
 import (
 	"strconv"
 
-	k "github.com/segmentio/kafka-go"
+	"github.com/segmentio/kafka-go"
 )
 
 const RetryHeader = "retry-count"
 
-func GetRetryCount(headers []k.Header) int {
+func GetRetryCount(headers []kafka.Header) int {
 	for _, h := range headers {
 		if h.Key == RetryHeader {
 			v, _ := strconv.Atoi(string(h.Value))
@@ -18,8 +18,8 @@ func GetRetryCount(headers []k.Header) int {
 	return 0
 }
 
-func SetRetryCount(count int) []k.Header {
-	return []k.Header{
+func SetRetryCount(count int) []kafka.Header {
+	return []kafka.Header{
 		{Key: RetryHeader, Value: []byte(strconv.Itoa(count))},
 	}
 }

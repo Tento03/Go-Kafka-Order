@@ -4,24 +4,23 @@ import (
 	"context"
 	"log"
 
-	k "github.com/segmentio/kafka-go"
+	"github.com/segmentio/kafka-go"
 )
 
 type Producer struct {
-	writer *k.Writer
+	writer *kafka.Writer
 }
 
 func NewProducer(brokers []string, topic string) *Producer {
-	w := &k.Writer{
-		Addr:     k.TCP(brokers...),
+	w := &kafka.Writer{
+		Addr:     kafka.TCP(brokers...),
 		Topic:    topic,
-		Balancer: &k.LeastBytes{},
+		Balancer: &kafka.LeastBytes{},
 	}
-
 	return &Producer{w}
 }
 
-func (p *Producer) Publish(ctx context.Context, msg k.Message) error {
+func (p *Producer) Publish(ctx context.Context, msg kafka.Message) error {
 	err := p.writer.WriteMessages(ctx, msg)
 	if err == nil {
 		log.Printf("Message published | topic=%s partition=%d offset=%d",
