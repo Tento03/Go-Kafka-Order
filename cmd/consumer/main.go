@@ -1,4 +1,4 @@
-package main
+package consumer
 
 import (
 	"context"
@@ -19,7 +19,7 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
 
-	reader := kafka.NewConsumer(config.Brokers, config.OrdersTopic, "order-processors")
+	reader := kafka.NewConsumer(config.Brokers, config.GroupId, config.OrdersTopic)
 	defer reader.Close()
 
 	retryProducer := kafka.NewProducer(config.Brokers, config.RetryTopic)
