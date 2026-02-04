@@ -8,8 +8,8 @@ import (
 )
 
 type Job struct {
-	order model.Order
-	ack   func(success bool)
+	Order model.Order
+	Ack   func(success bool)
 }
 
 type Pool struct {
@@ -33,12 +33,12 @@ func (p *Pool) Run(ctx context.Context, size int) {
 				case <-ctx.Done():
 					return
 				case job := <-p.jobs:
-					log.Printf("Worker %d processing order %s", workerId, job.order.ID)
+					log.Printf("Worker %d processing order %s", workerId, job.Order.ID)
 
-					if job.order.Quantity%2 == 0 {
-						job.ack(true)
+					if job.Order.Quantity%2 == 0 {
+						job.Ack(true)
 					} else {
-						job.ack(false)
+						job.Ack(false)
 					}
 				}
 			}
