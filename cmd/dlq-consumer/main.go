@@ -18,7 +18,7 @@ func main() {
 			break
 		}
 
-		log.Printf("DQL message: %s", string(msg.Value))
+		log.Printf("DLQ message: %s", string(msg.Value))
 		reader.CommitMessages(ctx, msg)
 	}
 }
